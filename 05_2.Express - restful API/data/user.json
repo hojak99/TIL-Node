@@ -1,10 +1,14 @@
 {
-    "test_1" : {
-        "password" : "1234",
-        "name" : "kjh"
-    },
-    "test_2" : {
-        "password" : "1234",
-        "name" : "hkj"
-    }
+	"test_1": {
+		"password": "1234",
+		"name": "kjh"
+	},
+	"test_2": {
+		"password": "1234",
+		"name": "hkj"
+	},
+	"username": {
+		"password": "1234",
+		"name": "kjh"
+	}
 }

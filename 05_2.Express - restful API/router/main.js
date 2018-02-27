@@ -9,7 +9,7 @@
  * 4. POST : 생성
  */
 
-module.exports = function(app, fs) {
+module.exports = function(app, fs, parser) {
     
     app.get('/', function(req, res) {
         res.render('index', {
@@ -38,26 +38,34 @@ module.exports = function(app, fs) {
     
     // POST /addUser/:username
     // body : {"password" : "~", "name" : "~"} 형식의 json이 서버에 전달된다고 가정
-    app.post('/addUser/:username', function(req, res){
+    app.post('/addUser/:username', parser, function(req, res){
         var result = {};
         var username = req.params.username;
         console.log("username : " + username);
-        console.log("body : " + req.body);
+        console.log("body : " + req.body.password);
 
-        if(!req.body["password"] || !req.body["name"]) {
-            result["success"] = 0;
-            result["error"] = "invalid request";
+        if(!req.body.password || !req.body.name) {
+            result.success = 0;
+            result.error = "invalid request";
             res.json(result);
             return;
         }
 
-        // 데이터 추가
-        users[username] = req.body;
+        fs.readFile(__dirname + "/../data/user.json", "utf-8", function(err, data) {
+            var users = JSON.parse(data);
+            if(users.username) {
+                result.success = 0;
+                result.error = "duplicate";
+                res.json(result);
+            }
 
-        fs.writeFile(__dirname + "/../data/user.json",
-                        JSON.stringify(users, null, '\t'), "utf-8", function(err, data) {
-            result = {"success" : 1};
-            res.json(result);
+            users.username = req.body;
+
+            fs.writeFile(__dirname + "/../data/user.json",
+                            JSON.stringify(users, null, '\t'), "utf-8", function(err, data) {
+                result = {"success" : 1};
+                res.json(result);
+            })
         })
     }); 
 }

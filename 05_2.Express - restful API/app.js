@@ -4,8 +4,10 @@ var session = require('express-session');
 var fs = require('fs');
 var app = express();
 
+var parser = bodyParser.json();
+
 // 라우터 모듈인 main.js 를 불러와 app 에 전달
-var router = require('./router/main')(app, fs);
+var router = require('./router/main')(app, fs, parser);
 
 // 서버가 읽을 수 있도록 HTML 의 위치 정의
 app.set('views', __dirname + '/views');
@@ -25,7 +27,7 @@ app.use(session({
     saveUninitialized: true     // false 로 하면 session 저장 안한다. true 하면 모든 초기화되지 않은 session은 저장된다.
 }));
 
-var server = app.listen(8080, function(){
+var server = app.listen(8181, function(){
     console.log("Express server has started on port 8080");
 });
 
