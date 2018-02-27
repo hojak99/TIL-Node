@@ -68,4 +68,33 @@ module.exports = function(app, fs, parser) {
             })
         })
     }); 
+
+
+    // PUT /updateUser/:username            
+    // body : {"password" : "~" , "name" : "~"}
+    // PUT API 는 요청을 몇 번 와도, 같은 결과를 보장해야 한다. (POST API 와 비슷하므로 생략)
+
+
+    // DELETE /deleteUser/:username
+    app.delete('/deleteUser/:username', function(req, res) {
+        var result = {};
+        
+        fs.readFile(__dirname + "/../data/user.json", "utf-8", function(err, data) {
+            var users = JSON.parse(data);
+
+            if(!users[req.params.username]) {
+                result.success = 0;
+                result.error = "not found";
+                res.json(result);
+                return;
+            }
+
+            delete users[req.params.username];
+            fs.writeFile(__dirname + "/../data/user.json", JSON.stringify(users, null, "\t"), "utf-8", function(err, data) {
+                result.success = 1;
+                res.json(result);
+                return;
+            })
+        })
+    });
 }
