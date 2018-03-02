@@ -3,7 +3,7 @@ var fun1 = function(arg) {
         setTimeout(
             function() {
                 console.log("fun1");
-                resolve("fun1 success : "+ arg + "\n");
+                resolve("fun1 success : "+ arg);
             }, 500);
     });
 }
@@ -13,7 +13,7 @@ var fun2 = function(arg) {
         setTimeout(
             function() {
                 console.log("fun2");
-                reject(new Error("fun2 error : "+ arg + "\n"));
+                reject(new Error("fun2 error : "+ arg));
             }, 500);
     });
 }
@@ -51,9 +51,9 @@ var fun5 = function(arg) {
 
 var promise = fun1("HI");
 promise.then(fun2)
+.catch((err)=> {console.log(err)})
 .then(fun3)
-.catch(console.err)
 .then(fun4)
+.catch((err)=> {console.log(err)})
 .then(fun5)
-.catch(console.err)
 .then(console.log);
