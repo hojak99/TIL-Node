@@ -5,7 +5,8 @@
  * 그래서 화살표 함수가 사용된 콜백함수 내에서는 this를 사용하지 말아야 한다고 한다.
  */
 
-var thisTest = "global variable";
+ // 전역객체에 'thisTest' 라는 속성 추가
+this.thisTest = "global variable";
 
 var nomalFunc =  {
     thisTest : "nomal",
@@ -22,4 +23,4 @@ var arrowFunc = {
 }
 
 nomalFunc.out();        // "nomal" 출력
-arrowFunc.out();        // "undefiend" 출력
+arrowFunc.out();        // "global variable" 출력
