@@ -5,10 +5,9 @@ var path        = require('path');
 var io          = require('socket.io');
 var app         = express();
 
+var routes = require('./routes')(app, io);
 app.use(express.static(path.join(__dirname) + '/public'));
 // Configure routes
-var routes = require('./routes')(app);
-
 
 var server = http.createServer(app).listen(8080, (requset, response) => {
     console.log('Socket IO server has been stated');
