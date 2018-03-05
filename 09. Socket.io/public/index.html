@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Socket.io</title>
+</head>
+<body>
+    <b>Send Message</b>
+    <p>Message <input type="text" id="msgBox"></p>
+    <br>
+    <span id="msgs"></span>
+    <script type="text/javascript">
+        var socket = io.connect("http://localhost:8080");
+        $("#msgBox").keyup(function(event) {
+            if(event.which == 13) {
+                // 이벤트 보내기 (emit)
+                socket.emit('fromclient', {msg :$('#msgBox').val()});
+                $("#msgBox").val('');
+            }
+        });
+
+        // 이벤트 받기
+        socket.on('toclient', function(data) {
+            console.log(data.msg);
+            $('#msgs').append(data.msg+"<BR>");
+        });
+    </script>
+</body>
+</html>
