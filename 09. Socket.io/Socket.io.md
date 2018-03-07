@@ -53,9 +53,12 @@ Server.prototype.attach = function(srv, opts){
   }
 
 
-  // 여기서부터 조금 빡세진다. 공부 좀 하고 내용 보충하겠다.
   // set engine.io path to `/socket.io`
+  // opts 에 데이터가 없다면, {} 을 넣어준다.
   opts = opts || {};
+  
+  // opts.path 에 데이터가 없다면, this.path() 의 번환값을 넣어주는데 "/socket.io" 다.
+  // 여기서 this 는 Server 객체이다.
   opts.path = opts.path || this.path();
   // set origins verification
   opts.allowRequest = opts.allowRequest || this.checkRequest.bind(this);
@@ -65,6 +68,7 @@ Server.prototype.attach = function(srv, opts){
     return this;
   }
 
+  // 이 다음부터는 아직 실력이 부족한지 못 까보겠다.
   var self = this;
   var connectPacket = { type: parser.CONNECT, nsp: '/' };
   this.encoder.encode(connectPacket, function (encodedPacket){
